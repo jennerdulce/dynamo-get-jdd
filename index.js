@@ -6,25 +6,21 @@ const clientsModel = require('./schema.js');
 exports.handler = async (event) => {
   console.log('EVENT', event)
   try {
-    if (!event.body) {
-      const list = await clientsModel.scan().exec()
-      const data = JSON.stringify(list)
+    if (event.queryStringParameters) {
+      console.log(event.queryStringParameters.id)
+      const id = event.queryStringParameters.id
+      let user = await clientsModel.get({ "id": id })
+      const data = JSON.stringify(user)
       return {
         statusCode: 201,
         body: data
       }
     } else {
-      const body = JSON.parse(event.body)
-      if (body.id) {
-        let user = await clientsModel.get({ "id": body.id })
-      } else if (body.name) {
-        let user = await clientsModel.get({ "name": body.name })
-      } else if (body.phone) {
-        let user = await clientsModel.get({ "phone": body.phone })
-      }
+      const list = await clientsModel.scan().exec()
+      const data = JSON.stringify(list)
       return {
         statusCode: 201,
-        body: user
+        body: data
       }
     }
 
