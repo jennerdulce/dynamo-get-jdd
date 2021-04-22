@@ -104,3 +104,5 @@ const clientsSchema = new dynamoose.Schema({
 
 - OUTPUT:
   - The user will be notified that the user with the specified ID has been deleted
+
+![UML](./Whiteboards.jpg)
